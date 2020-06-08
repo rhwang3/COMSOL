@@ -1,0 +1,54 @@
+#run a for loop 
+#because eme doesnt let you do a 
+#non length variable sweep 
+
+function TDCsimloopSTL (num, STLfilename, x, y, z) {
+    
+    format long; 
+    L1 = [0;0;0]; 
+    for (i = 1:num){ 
+        importSTL(STLfilename, i); 
+        select("COMSOLstruct"); 
+        set("override mesh order from material database",1);
+        set("mesh order", 4); 
+        set("x", x);
+        set("y", y);
+        set("z", z); 
+        run;
+        emepropagate;
+        runanalysis;   
+        S = getresult("::model", "S");
+        A = angle(S);
+        pwrT21 = getresult("::model", "pwrT21");
+        pwrT31 = getresult("::model", "pwrT31");
+        filenameTrans="resultsTrans_"+num2str(i); # set filename. i could be a loop counter variable.
+        filenameSmatrix = "resultSmatrix_"+num2str(i); # set filename              
+        filenameMonitor = "resultMonitor"+num2str(i);      
+        savedata(filenameMonitor, monitor_data, i); 
+        savedata(filenameTrans, S, pwrT21, pwrT31,i); 
+        savedata(filenameSmatrix, S, A, i);
+        T = [i; pwrT21; pwrT31]; 
+        L2_col = [i; i; i]; 
+        z_col = [0; 0; 0];
+        x_col = [0; 0; 0]; 
+        Smatrix = [L2_col, S, z_col, A, x_col]; 
+        if (i == 1){
+            FinalMatrixT = L1;
+            FinalMatrixT = [FinalMatrixT, T];
+            FinalMatrixS = L1; 
+            FinalMatrixS = [FinalMatrixS, Smatrix];
+            endl;
+            endl;
+        }
+        else{
+            FinalMatrixT = [FinalMatrixT, T];
+            FinalMatrixS = [FinalMatrixS, Smatrix];
+            endl;
+            endl;
+        }
+        #delete("COMSOLstruct");
+        }      
+
+write("deleteTrans.txt", num2str(FinalMatrixT)); 
+write("deleteSMatrix.txt", num2str(FinalMatrixS));
+}
