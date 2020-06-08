@@ -1,0 +1,22 @@
+# import STL file and build surrounding photonics structure 
+
+# please make sure that STL file is in the same directory as this script
+function importSTL(STLfilename, num) {
+    switchtolayout;
+    if (num != 0) {
+        filename = STLfilename + num2str(num) +  '.stl';
+        stlimport(filename);
+        set("material","Silicon Nitride Nate");
+        set('name', 'COMSOLstruct');
+    } else {
+        filename = STLfilename + '.stl';
+        stlimport(filename);
+        set("material","Silicon Nitride Nate");
+        set('name', 'COMSOLstruct');
+        
+        }
+    
+}
+
+
+# we could call this function in a for loop, then have emepropagate and collect the data 
