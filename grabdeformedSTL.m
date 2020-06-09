@@ -19,7 +19,7 @@ mphlaunch(model) %in case you want to check through the COMSOL API
 N = length(start:step:stop) + 1; 
 
 for m = 1: N
-model.result('pg1').feature('surf1').feature('def1').set('scale', '10000'); %exaggerate scale to easily confirm that bridge is deforming 
+model.result('pg1').feature('surf1').feature('def1').set('scale', '0'); %exaggerate scale to easily confirm that bridge is deforming 
 model.result('pg1').setIndex('looplevel', num2str(m) , 0);
 model.result('pg1').run;
 % the only reason why this works is because you are working with a mph file
