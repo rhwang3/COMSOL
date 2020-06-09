@@ -18,13 +18,14 @@ function TDCsimloopSTL (num, STLfilename, x, y, z) {
         emepropagate;
         runanalysis;   
         S = getresult("::model", "S");
+        monitor = getresult("::model", "monitor_data");
         A = angle(S);
         pwrT21 = getresult("::model", "pwrT21");
         pwrT31 = getresult("::model", "pwrT31");
         filenameTrans="resultsTrans_"+num2str(i); # set filename. i could be a loop counter variable.
         filenameSmatrix = "resultSmatrix_"+num2str(i); # set filename              
         filenameMonitor = "resultMonitor"+num2str(i);      
-        savedata(filenameMonitor, monitor_data, i); 
+        savedata(filenameMonitor, monitor, i); 
         savedata(filenameTrans, S, pwrT21, pwrT31,i); 
         savedata(filenameSmatrix, S, A, i);
         T = [i; pwrT21; pwrT31]; 
