@@ -47,7 +47,7 @@ function TDCsimloopSTL (num, STLfilename, x, y, z) {
             endl;
             endl;
         }
-        #delete("COMSOLstruct");
+        delete("COMSOLstruct");
         }      
 
 write("deleteTrans.txt", num2str(FinalMatrixT)); 
